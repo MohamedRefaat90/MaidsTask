@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maids_task/core/helpers/functions/snakbar.dart';
 import 'package:maids_task/core/themes/app_pallete.dart';
 import 'package:maids_task/core/widgets/custom_btn.dart';
+import 'package:maids_task/features/home/data/data_sources/db_helper.dart';
 
 import '../../cubit/home_cubit.dart';
 import '../../data/models/task_model.dart';
@@ -43,8 +44,11 @@ PersistentBottomSheetController taskActions(
                 widget: Text(task.completed! ? "TODO" : "Compelete"),
                 width: 250,
                 color: AppPalette.violet,
-                press: () => context.read<HomeCubit>().markTaskComplete(
-                    task.id!, task.completed! ? false : true)),
+                press: () {
+                  context.read<HomeCubit>().markTaskComplete(
+                      task.id!, task.completed! ? false : true);
+                  DBHelper.updateCompelete(task.id!);
+                }),
           ),
           const SizedBox(height: 10),
           BlocListener<HomeCubit, HomeState>(
@@ -58,7 +62,10 @@ PersistentBottomSheetController taskActions(
                 widget: const Text('Delete Task'),
                 color: AppPalette.errorColor,
                 width: 250,
-                press: () => context.read<HomeCubit>().deleteTask(task.id!)),
+                press: () {
+                  context.read<HomeCubit>().deleteTask(task.id!);
+                  DBHelper.delete(task);
+                }),
           ),
           const Divider(
               height: 20,

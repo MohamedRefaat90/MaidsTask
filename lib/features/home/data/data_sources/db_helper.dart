@@ -27,7 +27,7 @@ abstract class DBHelper {
             'CREATE TABLE Task ('
             'id INTEGER PRIMARY KEY,'
             'todo TEXT,'
-            'completed INTEGER,'
+            'isCompleted INTEGER,'
             'userId INTEGER)',
           );
 
